@@ -1,0 +1,14 @@
+PERMANOVA (adonis2) test for biopsy_site group separation
+-----------------------------------------------------------
+
+Permutation test for adonis under reduced model
+Permutation: free
+Number of permutations: 4999
+
+adonis2(formula = dist_matrix ~ biopsy_site, data = meta, permutations = 4999)
+         Df SumOfSqs      R2     F Pr(>F)   
+Model     2    42413 0.59989 4.498  0.002 **
+Residual  6    28288 0.40011                
+Total     8    70700 1.00000                
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
