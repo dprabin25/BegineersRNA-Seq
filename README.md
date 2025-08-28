@@ -16,7 +16,7 @@ This document explains each step of your R script for RNA-seq differential expre
 library(DESeq2); library(ggplot2); library(pheatmap); library(RColorBrewer)
 library(ashr); library(readr); library(dplyr); library(matrixStats); library(vegan)
 
-setwd("C:/Users/newfaculty/Desktop/Bioinformatics_Club")
+setwd("USE YOUR DIRECTORY CONTAINING RAW COUNT and META COUNT CSV FILES")
 plot_dir <- "DESeq2_Plots"
 dir.create(plot_dir, showWarnings = FALSE)
 ```
