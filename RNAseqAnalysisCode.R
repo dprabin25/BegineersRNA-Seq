@@ -212,24 +212,166 @@ dev.off()
 # =====================
 # Heatmap of top 20 variable genes
 # =====================
-select_genes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), 20)
-heatmap_data <- assay(vsd)[select_genes, ]
-heatmap_data <- as.matrix(heatmap_data)
-heatmap_data <- heatmap_data[apply(heatmap_data, 1, function(x) all(is.finite(x) & !is.na(x))), ]
+# ============================
+# Heatmaps: Top 20 variable genes
+# - Unscaled (VST values)
+# - Row Z-score scaled
+# ============================
 
-annotation_col <- meta[, "biopsy_site", drop = FALSE]
+suppressPackageStartupMessages({
+  library(pheatmap)
+  library(RColorBrewer)
+  library(matrixStats)
+  library(grid)
+})
 
-png(file.path(plot_dir, "Heatmap_Top20Genes.png"), width = 1200, height = 900)
-pheatmap(heatmap_data,
-         annotation_col = annotation_col,
-         cluster_rows = TRUE,
-         cluster_cols = TRUE,
-         show_rownames = TRUE,
-         fontsize = 12,
-         main = "Top 20 Most Variable Genes",
-         color = colorRampPalette(rev(brewer.pal(n = 9, name = "RdBu")))(100),
-         border_color = NA)
+# ---- 0) Parameters (tweak if needed) ----
+n_top          <- 20
+z_cap          <- 2.5     # cap z-scores at ±2.5 for robust visualization
+dpi            <- 300
+w_in           <- 8
+h_in           <- 6
+fs_main        <- 22
+fs_label       <- 12
+rowname_show   <- TRUE
+clust_method   <- "ward.D2"   # good for heatmaps
+dist_rows      <- "correlation"
+dist_cols      <- "correlation"
+
+# Diverging palette for Z-score; sequential for unscaled
+pal_div  <- colorRampPalette(rev(brewer.pal(9, "RdBu")))(101)
+pal_cont <- colorRampPalette(brewer.pal(9, "YlGnBu"))(101)
+
+# ---- 1) Build the data matrix (top variable genes) ----
+# 'vsd' should be a SummarizedExperiment or DESeqTransform with assay(vsd)
+mat_all <- assay(vsd)
+
+# pick top variable genes (row variance)
+sel_idx <- head(order(rowVars(mat_all), decreasing = TRUE), n_top)
+heatmap_data <- as.matrix(mat_all[sel_idx, , drop = FALSE])
+
+# drop any non-finite rows (rare but avoids plotting errors)
+keep_rows <- apply(heatmap_data, 1, function(x) all(is.finite(x) & !is.na(x)))
+heatmap_data <- heatmap_data[keep_rows, , drop = FALSE]
+
+# ---- 2) Annotation (biopsy_site) ----
+# Ensure annotation rows == columns of matrix
+annotation_col <- data.frame(Biopsy = meta$biopsy_site)
+rownames(annotation_col) <- colnames(heatmap_data)
+
+# Nice, consistent colors for biopsy categories
+biopsy_lvls <- unique(annotation_col$Biopsy)
+biopsy_cols <- setNames(
+  colorRampPalette(brewer.pal(max(3, min(9, length(biopsy_lvls))), "Set2"))(length(biopsy_lvls)),
+  biopsy_lvls
+)
+ann_colors <- list(Biopsy = biopsy_cols)
+
+# ---- 3) UN-SCALED (VST) HEATMAP ----
+# Robust breaks using winsorized range (2nd–98th percentiles)
+q <- quantile(heatmap_data, probs = c(0.02, 0.98), na.rm = TRUE)
+vmin <- unname(q[1]); vmax <- unname(q[2])
+if (vmin >= vmax) { # fallback if data are flat
+  vmin <- min(heatmap_data, na.rm = TRUE)
+  vmax <- max(heatmap_data, na.rm = TRUE)
+}
+breaks_cont <- seq(vmin, vmax, length.out = length(pal_cont) + 1)
+
+png(file.path(plot_dir, "Heatmap_Top20Genes_unscaled.png"),
+    width = 15, height = 14, units = "in", res = 300)
+pheatmap(
+  heatmap_data,
+  annotation_col          = annotation_col,
+  annotation_colors       = ann_colors,
+  cluster_rows            = TRUE,
+  cluster_cols            = TRUE,
+  clustering_method       = clust_method,
+  clustering_distance_rows= dist_rows,
+  clustering_distance_cols= dist_cols,
+  show_rownames           = rowname_show,
+  fontsize                = fs_label,
+  main                    = "Top Variable Genes (Unscaled VST)",
+  color                   = pal_cont,
+  breaks                  = breaks_cont,
+  border_color            = NA,
+  na_col                  = "grey90",
+  angle_col               = 45
+)
 dev.off()
+
+pheatmap(
+  heatmap_data,
+  annotation_col          = annotation_col,
+  annotation_colors       = ann_colors,
+  cluster_rows            = TRUE,
+  cluster_cols            = TRUE,
+  clustering_method       = clust_method,
+  clustering_distance_rows= dist_rows,
+  clustering_distance_cols= dist_cols,
+  show_rownames           = rowname_show,
+  fontsize                = fs_label,
+  main                    = "Top Variable Genes (Unscaled VST)",
+  color                   = pal_cont,
+  breaks                  = breaks_cont,
+  border_color            = NA,
+  na_col                  = "grey90",
+  angle_col               = 45
+)
+dev.off()
+
+# ---- 4) Z-SCORE (row-scaled) HEATMAP ----
+# Scale each gene (row) to mean 0, sd 1; cap extremes to ±z_cap for readability
+z_mat <- t(scale(t(heatmap_data)))
+# Replace any rows with sd=0 (NA after scaling) by zeros to retain structure
+z_mat[!is.finite(z_mat)] <- 0
+# cap values
+z_mat[z_mat >  z_cap] <-  z_cap
+z_mat[z_mat < -z_cap] <- -z_cap
+breaks_div <- seq(-z_cap, z_cap, length.out = length(pal_div) + 1)
+
+png(file.path(plot_dir, "Heatmap_Top20Genes_Zscore.png"),
+    width = 15, height = 14, units = "in", res = 300)
+pheatmap(
+  z_mat,
+  annotation_col          = annotation_col,
+  annotation_colors       = ann_colors,
+  cluster_rows            = TRUE,
+  cluster_cols            = TRUE,
+  clustering_method       = clust_method,
+  clustering_distance_rows= dist_rows,
+  clustering_distance_cols= dist_cols,
+  show_rownames           = rowname_show,
+  fontsize                = fs_label,
+  main                    = "Top Variable Genes (Row Z-score)",
+  color                   = pal_div,
+  breaks                  = breaks_div,
+  border_color            = NA,
+  na_col                  = "grey90",
+  angle_col               = 45
+)
+dev.off()
+
+
+pheatmap(
+  z_mat,
+  annotation_col          = annotation_col,
+  annotation_colors       = ann_colors,
+  cluster_rows            = TRUE,
+  cluster_cols            = TRUE,
+  clustering_method       = clust_method,
+  clustering_distance_rows= dist_rows,
+  clustering_distance_cols= dist_cols,
+  show_rownames           = rowname_show,
+  fontsize                = fs_label,
+  main                    = "Top Variable Genes (Row Z-score)",
+  color                   = pal_div,
+  breaks                  = breaks_div,
+  border_color            = NA,
+  na_col                  = "grey90",
+  angle_col               = 45
+)
+dev.off()
+
 
 # Save up/downregulated genes
 up_primary <- subset(res_primary_ordered, padj < 0.05 & log2FoldChange > 1)
