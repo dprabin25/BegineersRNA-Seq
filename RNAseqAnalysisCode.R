@@ -27,7 +27,7 @@ meta$biopsy_site <- meta$Factor.Value.biopsy.site.
 counts <- counts[, rownames(meta)]
 stopifnot(all(colnames(counts) == rownames(meta)))
 
-# 🔥 Filter low-count genes: keep genes with ≥10 counts in ≥2 samples
+# Filter low-count genes: keep genes with ≥10 counts in ≥2 samples
 keep <- rowSums(counts >= 10) >= 2
 counts <- counts[keep, ]
 message("Genes retained after filtering: ", nrow(counts))
@@ -383,3 +383,4 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
