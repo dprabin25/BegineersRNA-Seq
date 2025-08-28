@@ -16,26 +16,25 @@ PCA and clustering
 
 Differential expression (DEG) analysis across conditions
 
-Visualization: volcano plots, MA plots, heatmaps, boxplots
+Visualization: volcano plots, MA plots, heatmaps
 
-PERMANOVA for multivariate testing
+
 
 3. Outputs
-DEG Tables
+
+DeSeqResults.csv
 
 Upregulated_* / Downregulated_* CSVs per comparison
 
 Normalized_Counts.csv – DESeq2-normalized matrix
 
-Statistics
 
 PCA_data.csv – PCA coordinates
 
-PERMANOVA_results.txt – Multivariate test results
 
 Plots (Output/DESeq2_Plots/)
 
-Boxplot, heatmap (top 20 DEGs), MA plots, PCA, sample distance heatmap, volcano plots
+Heatmap (top 20 DEGs), MA plots, PCA, Volcano plots
 
 4. Usage
 Install Requirements
