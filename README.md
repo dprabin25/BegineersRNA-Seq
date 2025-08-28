@@ -1,7 +1,7 @@
 
 # RNA-seq Differential Expression (DESeq2) — Code Description
 
-This document explains each step of your R script for RNA-seq differential expression analysis, what it expects as input, what it produces as output, and which parts to tweak. It mirrors the exact code blocks you shared.
+This document explains each step of your R script for RNA-seq differential expression analysis, what it expects as input, what it produces as output.
 
 ---
 
@@ -321,37 +321,9 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 ---
 
-## 14) Common Pitfalls & Tips
 
-- **Sample order mismatch**: The `stopifnot(...)` check ensures counts and metadata are aligned. If it fails, re-check row/column names.
-- **Factor level strings**: Must exactly match metadata values; watch for typos and trailing spaces.
-- **Thresholds**: Adjust low-count filter, volcano cutoffs, and z-score cap based on library sizes and biological expectations.
-- **Design formula**: For multi-factor designs (e.g., batch), extend `design = ~ batch + biopsy_site` and re-run.
-- **Shrinkage**: `ashr` stabilizes log2FC for better ranking/visuals; verify the correct `coef` name for your contrast.
+## 16) References
 
----
+Dawadi P., Pokharel B., Shrestha A., Niraula D., Naeema A., Miura S., Roy M.*, Nepal S.* (2025). From bench to bytes: A practical guide to RNA sequencing data analysis. Under review.   
 
-## 15) Reproducibility
 
-- Save the session info to document versions:
-```r
-sink("sessionInfo.txt"); print(sessionInfo()); sink()
-```
-
-- Consider setting a seed before PCA/plots for consistent jitter or randomized aspects:
-```r
-set.seed(123)
-```
-
----
-
-## 16) References (selected)
-
-- Love MI, Huber W, Anders S. **Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2**. *Genome Biology* (2014).
-- Zhu A, Ibrahim JG, Love MI. **Heavy-tailed prior distributions for sequence count data**. *NAR Genomics and Bioinformatics* (2019). (ashr context)
-- DESeq2 vignette & Bioconductor docs.
-- ggplot2, pheatmap, RColorBrewer documentation.
-
----
-
-**End of Code Description.**
