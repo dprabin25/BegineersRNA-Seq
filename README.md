@@ -322,7 +322,7 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 ---
 
 
-## 16) References
+## References
 
 Dawadi P., Pokharel B., Shrestha A., Niraula D., Naeema A., Miura S., Roy M.*, Nepal S.* (2025). From bench to bytes: A practical guide to RNA sequencing data analysis. Under review.   
 
