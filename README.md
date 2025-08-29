@@ -88,7 +88,7 @@ meta$biopsy_site <- factor(
 
 ---
 
-## 5) Build DESeq2 Dataset & Run DESeq
+## 5) Build DESeq2 Dataset, Normalization & Run DESeq
 
 **What it does**
 - Constructs the `DESeqDataSet` with design `~ biopsy_site` and runs dispersion estimation and model fitting.
@@ -100,9 +100,10 @@ dds <- DESeqDataSetFromMatrix(countData = round(counts),
                               design = ~ biopsy_site)
 
 dds <- DESeq(dds)
+write.csv(counts(dds, normalized = TRUE), "Normalized_Counts.csv")
 ```
 
-**Outputs**: `dds` object with fitted model.  
+**Outputs**: `dds` object with fitted model, Normalized_Counts 
 **Note**: Counts are rounded to integers for DESeq2.
 
 ---
@@ -117,10 +118,10 @@ dds <- DESeq(dds)
 ```r
 vsd <- vst(dds, blind = FALSE)
 norm_counts <- assay(vsd)
-write.csv(norm_counts, file = "Normalized_Counts.csv")
+write.csv(norm_counts, file = "VSD_Counts.csv")
 ```
 
-**Outputs**: `Normalized_Counts.csv` (VST values).  
+**Outputs**: `VSD_Counts.csv` (VST values).  
 **Tweak**: `blind = FALSE` respects design; set `TRUE` for purely exploratory, design-agnostic transform.
 
 ---
@@ -237,38 +238,49 @@ write.csv(as.data.frame(res_liver_ordered), "LiverMets_vs_Normal_DEGs.csv")
 
 **What it does**
 - Selects top 20 most variable genes (via row variance on VST matrix).
-- Produces **two heatmaps**:
-  1) **Unscaled (VST values)** using a sequential palette with winsorized color breaks (2nd–98th percentiles).
-  2) **Row Z-score scaled** heatmap using a diverging palette; caps z-scores at ±2.5 for robust contrast.
+# Drop NAs, pick top 20 by smallest adjusted p-value
+res_noNA <- res[!is.na(res$padj), ]
+top_genes_tbl <- head(res_noNA[order(res_noNA$padj), , drop = FALSE], 20)
+top_genes <- rownames(top_genes_tbl)
 
-**Key lines**
-```r
-n_top <- 20; z_cap <- 2.5
-mat_all <- assay(vsd)
-sel_idx <- head(order(rowVars(mat_all), decreasing = TRUE), n_top)
-heatmap_data <- as.matrix(mat_all[sel_idx, , drop = FALSE])
+# Subset the expression matrix to those genes (using dds values)
+hm_mat <- assay(vsd)[top_genes, , drop = FALSE]
 
-annotation_col <- data.frame(Biopsy = meta$biopsy_site)
-rownames(annotation_col) <- colnames(heatmap_data)
+# Heatmap (no additional scaling)
+pheatmap(hm_mat,
+         scale = "none",
+         cluster_rows = TRUE,
+         cluster_cols = TRUE,
+         show_rownames = TRUE,
+         show_colnames = TRUE,
+         main = "Top 20 DE genes (Vst of Normalized Gene Count)",
+         filename = file.path(plot_dir, "VST_WithoutZ-score_HeatmapTop20.png"),
+         width = 8,
+         height = 10,
+         color = colorRampPalette(brewer.pal(n = 7, name = "Blues"))(100)
+)
 
-# Unscaled with winsorized breaks
-q <- quantile(heatmap_data, probs = c(0.02, 0.98), na.rm = TRUE)
-breaks_cont <- seq(q[1], q[2], length.out = 102)
-
-# Z-score per row with capping
-z_mat <- t(scale(t(heatmap_data)))
-z_mat[!is.finite(z_mat)] <- 0
-z_mat[z_mat > z_cap] <- z_cap; z_mat[z_mat < -z_cap] <- -z_cap
-breaks_div <- seq(-z_cap, z_cap, length.out = 102)
-```
+# Heatmap (no additional scaling)
+pheatmap(hm_mat,
+         scale = "row",
+         cluster_rows = TRUE,
+         cluster_cols = TRUE,
+         show_rownames = TRUE,
+         show_colnames = TRUE,
+         main = "Top 20 DE genes (From Vst Normalized Gene Count)",
+         filename = file.path(plot_dir, "VST_HeatmapTop20.png"),
+         width = 8,
+         height = 10,
+         color = colorRampPalette(brewer.pal(n = 7, name = "Blues"))(100)
+)
 
 **Outputs**
 - `DESeq2_Plots/Heatmap_Top20Genes_unscaled.png`
 - `DESeq2_Plots/Heatmap_Top20Genes_Zscore.png`
 
 **Tweak**
-- Change `n_top`, `z_cap`, clustering distance/method, and palettes to suit your figure style.
-
+- You can change top 20 to any top genes you want to explore. Change 20 to any other number. 
+top_genes_tbl <- head(res_noNA[order(res_noNA$padj), , drop = FALSE], 20)
 ---
 
 ## 12) Export DEG Subsets
