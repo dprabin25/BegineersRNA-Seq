@@ -43,10 +43,12 @@ dds <- DESeqDataSetFromMatrix(countData = round(counts),
 
 # Run DESeq
 dds <- DESeq(dds)
+write.csv(counts(dds, normalized = TRUE), "Normalized_Counts.csv")
 
 # Variance stabilizing transformation (for downstream analyses)
 vsd <- vst(dds, blind = FALSE)
-
+norm_counts <- assay(vsd)
+write.csv(norm_counts, file = "VSD_Counts.csv")
 
 
 # Extract DESeq2 results (default: last level vs first level of biopsy_site)
@@ -219,5 +221,6 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
 
 
