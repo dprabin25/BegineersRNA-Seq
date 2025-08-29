@@ -65,7 +65,7 @@ norm_counts <- assay(vsd)
 write.csv(norm_counts, file = "Normalized_Counts.csv")
 
 # PCA plot
-pcaData <- plotPCA(vsd, intgroup = "biopsy_site", returnData = TRUE)
+pcaData <- plotPCA(vsd, intgroup = "biopsy_site", ntop =1000, returnData = TRUE)
 percentVar <- round(100 * attr(pcaData, "percentVar"))
 
 png(file.path(plot_dir, "PCA_plot.png"), width = 7, height = 6, units = "in", res = 300)
@@ -221,6 +221,7 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
 
 
 
