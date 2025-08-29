@@ -261,6 +261,7 @@ pheatmap(hm_mat,
 )
 
 # Heatmap (no additional scaling)
+```r
 pheatmap(hm_mat,
          scale = "row",
          cluster_rows = TRUE,
@@ -273,7 +274,7 @@ pheatmap(hm_mat,
          height = 10,
          color = colorRampPalette(brewer.pal(n = 7, name = "Blues"))(100)
 )
-
+```
 **Outputs**
 - `DESeq2_Plots/Heatmap_Top20Genes_unscaled.png`
 - `DESeq2_Plots/Heatmap_Top20Genes_Zscore.png`
