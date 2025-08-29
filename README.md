@@ -149,7 +149,7 @@ write.csv(as.data.frame(res), file = "DESeq2_results.csv")
 
 **Key lines**
 ```r
-pcaData <- plotPCA(vsd, intgroup = "biopsy_site", returnData = TRUE)
+pcaData <- plotPCA(vsd, intgroup = "biopsy_site", ntop =1000, returnData = TRUE)
 percentVar <- round(100 * attr(pcaData, "percentVar"))
 
 png(file.path(plot_dir, "PCA_plot.png"), width = 7, height = 6, units = "in", res = 300)
