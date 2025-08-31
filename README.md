@@ -10,9 +10,10 @@ Before begining you would need these following packages installed in R.
 `install.packages(c("ggplot2", "pheatmap", "RColorBrewer", 
                    "readr", "dplyr", "matrixStats", "vegan"))`
 
+### Bioconductor 
+`install.packages("BiocManager")`
 ### Bioconductor packages
-`install.packages("BiocManager")
-BiocManager::install(c("DESeq2", "ashr"))`
+`BiocManager::install(c("DESeq2", "ashr"))`
 
 ## 1) Libraries & Setup
 
