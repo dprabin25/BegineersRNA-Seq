@@ -25,8 +25,8 @@ BiocManager::install(c("DESeq2", "ashr"))`
 library(DESeq2); library(ggplot2); library(pheatmap); library(RColorBrewer)
 library(ashr); library(readr); library(dplyr); library(matrixStats); library(vegan)
 
-setwd("USE YOUR DIRECTORY CONTAINING RAW COUNT and META COUNT CSV FILES")
-plot_dir <- "DESeq2_Plots"
+setwd("USE YOUR DIRECTORY CONTAINING RAW COUNT and META COUNT CSV FILES") ## This directory should contain raw_counts.csv and MetaData.csv
+plot_dir <- "DESeq2_Plots"   ## This will create a folder named "DeSeq2Plots" where all the figures will be saved
 dir.create(plot_dir, showWarnings = FALSE)
 ```
 
@@ -320,7 +320,7 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 ## 13) File Output Summary (Quick Checklist)
 
-- **Tables**
+- **Tables** (All the tables are created in the directory where your input files are present)
   - `DESeq2_results.csv`
   - `Normalized_Counts.csv`
   - `PCA_data.csv`
