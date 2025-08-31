@@ -255,20 +255,7 @@ top_genes <- rownames(top_genes_tbl)`
 # Subset the expression matrix to those genes (using dds values)
 `hm_mat <- assay(vsd)[top_genes, , drop = FALSE]`
 
-# Heatmap (no additional scaling)
-`pheatmap(hm_mat,
-         scale = "none",
-         cluster_rows = TRUE,
-         cluster_cols = TRUE,
-         show_rownames = TRUE,
-         show_colnames = TRUE,
-         main = "Top 20 DE genes (Vst of Normalized Gene Count)",
-         filename = file.path(plot_dir, "VST_WithoutZ-score_HeatmapTop20.png"),
-         width = 8,
-         height = 10,
-         color = colorRampPalette(brewer.pal(n = 7, name = "Blues"))(100)
-)`
-# Heatmap (no additional scaling)
+# Heatmap
 ```r
 pheatmap(hm_mat,
          scale = "row",
@@ -284,8 +271,7 @@ pheatmap(hm_mat,
 )
 ```
 **Outputs**
-- `DESeq2_Plots/Heatmap_Top20Genes_unscaled.png`
-- `DESeq2_Plots/Heatmap_Top20Genes_Zscore.png`
+- `DESeq2_Plots/VST_HeatmapTop20.png`
 
 **Tweak**
 - You can change top 20 to any top genes you want to explore. Change 20 to any other number. 
@@ -337,8 +323,7 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
   - `Volcano_Primary_vs_Normal.png`
   - `MA_plot_Liver_vs_Normal.png`
   - `Volcano_Liver_vs_Normal.png`
-  - `Heatmap_Top20Genes_unscaled.png`
-  - `Heatmap_Top20Genes_Zscore.png`
+  - `Heatmap_Top20Genes
 
 ---
 
