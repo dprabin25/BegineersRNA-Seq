@@ -250,7 +250,7 @@ write.csv(as.data.frame(res_liver_ordered), "LiverMets_vs_Normal_DEGs.csv")
 - Selects top 20 most variable genes (via row variance on VST matrix).
 # Drop NAs, pick top 20 by smallest adjusted p-value
 `res_noNA <- res[!is.na(res$padj), ]
-top_genes_tbl <- head(res_noNA[order(res_noNA$padj), , drop = FALSE], 20)
+top_genes_tbl <- head(res_noNA[order(res_noNA$padj), drop = FALSE], 20)
 top_genes <- rownames(top_genes_tbl)`
 
 # Subset the expression matrix to those genes (using dds values)
