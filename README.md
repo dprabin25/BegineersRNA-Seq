@@ -253,10 +253,10 @@ top_genes_tbl <- head(res_noNA[order(res_noNA$padj), , drop = FALSE], 20)
 top_genes <- rownames(top_genes_tbl)
 
 # Subset the expression matrix to those genes (using dds values)
-hm_mat <- assay(vsd)[top_genes, , drop = FALSE]
+`hm_mat <- assay(vsd)[top_genes, , drop = FALSE]`
 
 # Heatmap (no additional scaling)
-pheatmap(hm_mat,
+`pheatmap(hm_mat,
          scale = "none",
          cluster_rows = TRUE,
          cluster_cols = TRUE,
@@ -267,8 +267,7 @@ pheatmap(hm_mat,
          width = 8,
          height = 10,
          color = colorRampPalette(brewer.pal(n = 7, name = "Blues"))(100)
-)
-
+)`
 # Heatmap (no additional scaling)
 ```r
 pheatmap(hm_mat,
