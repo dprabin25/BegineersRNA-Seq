@@ -214,15 +214,14 @@ dev.off()
 # Heatmaps: Top 20 Variable Genes
 # Selects top 20 most variable genes (via row variance on VST matrix).
 # Drop NAs, pick top 20 by smallest adjusted p-value
-`res_noNA <- res[!is.na(res$padj), ]
+res_noNA <- res[!is.na(res$padj), ]
 top_genes_tbl <- head(res_noNA[order(res_noNA$padj), , drop = FALSE], 20)
-top_genes <- rownames(top_genes_tbl)`
+top_genes <- rownames(top_genes_tbl)
 
 # Subset the expression matrix to those genes (using dds values)
-`hm_mat <- assay(vsd)[top_genes, , drop = FALSE]`
+hm_mat <- assay(vsd)[top_genes, , drop = FALSE]
 
 # Heatmap
-```r
 pheatmap(hm_mat,
          scale = "row",
          cluster_rows = TRUE,
@@ -235,7 +234,7 @@ pheatmap(hm_mat,
          height = 10,
          color = colorRampPalette(brewer.pal(n = 7, name = "Blues"))(100)
 )
-```
+
 # Save up/downregulated genes
 up_primary <- subset(res_primary_ordered, padj < 0.05 & log2FoldChange > 1)
 down_primary <- subset(res_primary_ordered, padj < 0.05 & log2FoldChange < -1)
@@ -246,6 +245,7 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
 
 
 
