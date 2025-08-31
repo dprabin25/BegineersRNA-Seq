@@ -11,7 +11,7 @@ library(vegan)
 
 
 # Set working directory and output directory
-setwd("C:/Users/newfaculty/Desktop/Bioinformatics_Club")
+setwd("C:/Users/newfaculty/Desktop/Bioinformatics_Club") ## Please change the working directory to where you have saved your meta and raw count csv data.
 plot_dir <- "DESeq2_Plots"
 dir.create(plot_dir, showWarnings = FALSE)
 
@@ -246,6 +246,7 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
 
 
 
