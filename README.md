@@ -4,6 +4,15 @@
 This document explains each step of your R script for RNA-seq differential expression analysis, what it expects as input, what it produces as output.
 
 ---
+## Installing Packages in R (Installation for one time is enough)
+Before begining you would need these following packages installed in R.
+### CRAN packages
+install.packages(c("ggplot2", "pheatmap", "RColorBrewer", 
+                   "readr", "dplyr", "matrixStats", "vegan"))
+
+### Bioconductor packages
+install.packages("BiocManager")
+BiocManager::install(c("DESeq2", "ashr"))
 
 ## 1) Libraries & Setup
 
