@@ -16,8 +16,8 @@ plot_dir <- "DESeq2_Plots"
 dir.create(plot_dir, showWarnings = FALSE)
 
 # Read input files
-counts <- read.csv("raw_counts.csv", row.names = 1)
-meta   <- read.csv("MetaData.csv", row.names = 1)
+counts <- read.csv("raw_counts.csv", row.names = 1)  ## Check your raw count file name
+meta   <- read.csv("MetaData.csv", row.names = 1)    ## Check your meta data file name
 
 # Clean column names and extract condition info
 colnames(meta) <- trimws(colnames(meta))
@@ -245,6 +245,7 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
 
 
 
