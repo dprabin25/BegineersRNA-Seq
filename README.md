@@ -324,12 +324,13 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 ### 13) File Output Summary (Quick Checklist)
 
+You will have your output tables in your working directory and plots in a folder inside the directory. 
 
 #### Working_directory/
 
-raw_counts.csv   ## Input 
+raw_counts.csv   
 
-MetaData.csv    ## Input
+MetaData.csv    
 
 DESeq2_results.csv  
 
