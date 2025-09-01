@@ -5,6 +5,11 @@ Here, you can find how to download R :
 
 https://posit.co/download/rstudio-desktop/
 
+You can also learn how to install and run codes in R from this website.
+
+https://docs.posit.co/ide/user/ide/get-started/
+
+
 # RNA-seq Differential Expression (DESeq2) — Code Description
 
 This document explains each step of your R script for RNA-seq differential expression analysis, what it expects as input, what it produces as output.
