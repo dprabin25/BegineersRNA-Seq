@@ -1,3 +1,9 @@
+# Install R 
+You need to install R for running analysis in raw count data.
+
+Here, you can find how to download R :
+
+https://posit.co/download/rstudio-desktop/
 
 # RNA-seq Differential Expression (DESeq2) — Code Description
 
