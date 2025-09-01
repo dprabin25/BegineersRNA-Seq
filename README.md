@@ -322,7 +322,10 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 ---
 
-## 13) File Output Summary (Quick Checklist)
+### 13) File Output Summary (Quick Checklist)
+
+<details>
+<summary>Click to expand</summary>
 
 Working_directory/
 ├─ raw_counts.csv
@@ -339,12 +342,17 @@ Working_directory/
 ├─ Downregulated_Liver_vs_Normal.csv
 │
 └─ DESeq2_Plots/
-   ├─ PCA_plot.png
-   ├─ MA_plot_Primary_vs_Normal.png
-   ├─ Volcano_Primary_vs_Normal.png
-   ├─ MA_plot_Liver_vs_Normal.png
-   ├─ Volcano_Liver_vs_Normal.png
-   └─ Heatmap_Top20Genes.png
+├─ PCA_plot.png
+├─ MA_plot_Primary_vs_Normal.png
+├─ Volcano_Primary_vs_Normal.png
+├─ MA_plot_Liver_vs_Normal.png
+├─ Volcano_Liver_vs_Normal.png
+└─ Heatmap_Top20Genes.png
+
+bash
+Copy code
+
+</details>
 
 
 
