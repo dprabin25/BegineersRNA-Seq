@@ -370,7 +370,7 @@ Heatmap_Top20Genes.png
 
 ## References
 
-Dawadi P., Pokharel B., Shrestha A., Niraula D., Naeema A., Miura S., Roy M.*, Nepal S.* (2025). From bench to bytes: A practical guide to RNA sequencing data analysis. Department of Biology, The University of Mississippi . Under review.   
+Dawadi P., Pokharel B., Shrestha A., Niraula D., Naeem A., Miura S., Roy M.*, Nepal S.* (2025). From bench to bytes: A practical guide to RNA sequencing data analysis. Department of Biology, The University of Mississippi . Under review.   
 
 --------
 ### Copyright 2025, Authors and University of Mississippi
