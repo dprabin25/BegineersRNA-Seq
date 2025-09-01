@@ -51,7 +51,9 @@ dir.create(plot_dir, showWarnings = FALSE)
 - Ensures column order of counts matches the row order of metadata (critical for DESeq2).
 
 - WORKING DIRECTORY/
+  
 ├─ raw_counts.csv
+
 ├─ MetaData.csv
 
 **Key lines**
@@ -323,6 +325,7 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 ## 13) File Output Summary (Quick Checklist)
 
 Working_directory/
+
 ├─ raw_counts.csv
 
 ├─ MetaData.csv
@@ -350,17 +353,17 @@ Working_directory/
 
 └─ DESeq2_Plots/
 
-   ├─ PCA_plot.png
+       ├─ PCA_plot.png
    
-   ├─ MA_plot_Primary_vs_Normal.png
+       ├─ MA_plot_Primary_vs_Normal.png
    
-   ├─ Volcano_Primary_vs_Normal.png
+       ├─ Volcano_Primary_vs_Normal.png
    
-   ├─ MA_plot_Liver_vs_Normal.png
+       ├─ MA_plot_Liver_vs_Normal.png
    
-   ├─ Volcano_Liver_vs_Normal.png
+       ├─ Volcano_Liver_vs_Normal.png
    
-   └─ Heatmap_Top20Genes.png
+       ├─ Heatmap_Top20Genes.png
 
 ---
 
