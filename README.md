@@ -329,7 +329,7 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
   - `Volcano_Primary_vs_Normal.png`
   - `MA_plot_Liver_vs_Normal.png`
   - `Volcano_Liver_vs_Normal.png`
-  - `Heatmap_Top20Genes
+  - `Heatmap_Top20Genes`
 
 ---
 
