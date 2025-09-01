@@ -324,24 +324,42 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 Working_directory/
 ├─ raw_counts.csv
+
 ├─ MetaData.csv
 │
+
 ├─ DESeq2_results.csv
+
 ├─ Normalized_Counts.csv
+
 ├─ PCA_data.csv
+
 ├─ Primary_vs_Normal_DEGs.csv
+
 ├─ LiverMets_vs_Normal_DEGs.csv
+
 ├─ Upregulated_Primary_vs_Normal.csv
+
 ├─ Downregulated_Primary_vs_Normal.csv
+
 ├─ Upregulated_Liver_vs_Normal.csv
+
 ├─ Downregulated_Liver_vs_Normal.csv
+
 │
+
 └─ DESeq2_Plots/
+
    ├─ PCA_plot.png
+   
    ├─ MA_plot_Primary_vs_Normal.png
+   
    ├─ Volcano_Primary_vs_Normal.png
+   
    ├─ MA_plot_Liver_vs_Normal.png
+   
    ├─ Volcano_Liver_vs_Normal.png
+   
    └─ Heatmap_Top20Genes.png
 
 ---
