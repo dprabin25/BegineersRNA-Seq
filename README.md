@@ -324,13 +324,14 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 ### 13) File Output Summary (Quick Checklist)
 
-Working_directory/
 
-raw_counts.csv
+#### Working_directory/
 
-MetaData.csv
+raw_counts.csv   ## Input 
 
-DESeq2_results.csv
+MetaData.csv    ## Input
+
+DESeq2_results.csv  
 
 Normalized_Counts.csv
 
@@ -349,7 +350,9 @@ Upregulated_Liver_vs_Normal.csv
 Downregulated_Liver_vs_Normal.csv
 
 
-Working_directory/DESeq2_Plots/
+
+
+#### Working_directory/DESeq2_Plots/
 
 PCA_plot.png
 
