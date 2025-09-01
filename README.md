@@ -1,4 +1,4 @@
-# Installing R and running codes for new users 
+# Installing R and laerning to run codes for new users 
 You need to install R for running analysis in raw count data.
 
 Here, you can find how to download R :
