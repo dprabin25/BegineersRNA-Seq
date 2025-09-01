@@ -32,8 +32,8 @@ Before begining you would need these following packages installed in R.
 library(DESeq2); library(ggplot2); library(pheatmap); library(RColorBrewer)
 library(ashr); library(readr); library(dplyr); library(matrixStats); library(vegan)
 
-setwd("USE YOUR DIRECTORY CONTAINING RAW COUNT and META COUNT CSV FILES") ## This directory should contain raw_counts.csv and MetaData.csv
-plot_dir <- "DESeq2_Plots"   ## This will create a folder named "DeSeq2Plots" where all the figures will be saved
+setwd("USE YOUR WORKING_DIRECTORY CONTAINING RAW COUNT and META COUNT CSV FILES") ## This directory should contain raw_counts.csv and MetaData.csv
+plot_dir <- "DESeq2_Plots"   ## This will create a folder named "DeSeq2Plots" in your working directory where all the figures will be saved.   
 dir.create(plot_dir, showWarnings = FALSE)
 ```
 
@@ -49,6 +49,10 @@ dir.create(plot_dir, showWarnings = FALSE)
 - Reads count matrix and metadata.
 - Extracts the grouping column `biopsy_site` from metadata.
 - Ensures column order of counts matches the row order of metadata (critical for DESeq2).
+
+- WORKING DIRECTORY/
+├─ raw_counts.csv
+├─ MetaData.csv
 
 **Key lines**
 ```r
@@ -318,24 +322,27 @@ write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
 
 ## 13) File Output Summary (Quick Checklist)
 
-- **Tables** (All the tables are created in the directory where your input files are present)
-  - `DESeq2_results.csv`
-  - `Normalized_Counts.csv`
-  - `PCA_data.csv`
-  - `Primary_vs_Normal_DEGs.csv`
-  - `LiverMets_vs_Normal_DEGs.csv`
-  - `Upregulated_Primary_vs_Normal.csv`
-  - `Downregulated_Primary_vs_Normal.csv`
-  - `Upregulated_Liver_vs_Normal.csv`
-  - `Downregulated_Liver_vs_Normal.csv`
-
-- **Figures (folder: `DESeq2_Plots/`)**
-  - `PCA_plot.png`
-  - `MA_plot_Primary_vs_Normal.png`
-  - `Volcano_Primary_vs_Normal.png`
-  - `MA_plot_Liver_vs_Normal.png`
-  - `Volcano_Liver_vs_Normal.png`
-  - `Heatmap_Top20Genes`
+Working_directory/
+├─ raw_counts.csv
+├─ MetaData.csv
+│
+├─ DESeq2_results.csv
+├─ Normalized_Counts.csv
+├─ PCA_data.csv
+├─ Primary_vs_Normal_DEGs.csv
+├─ LiverMets_vs_Normal_DEGs.csv
+├─ Upregulated_Primary_vs_Normal.csv
+├─ Downregulated_Primary_vs_Normal.csv
+├─ Upregulated_Liver_vs_Normal.csv
+├─ Downregulated_Liver_vs_Normal.csv
+│
+└─ DESeq2_Plots/
+   ├─ PCA_plot.png
+   ├─ MA_plot_Primary_vs_Normal.png
+   ├─ Volcano_Primary_vs_Normal.png
+   ├─ MA_plot_Liver_vs_Normal.png
+   ├─ Volcano_Liver_vs_Normal.png
+   └─ Heatmap_Top20Genes.png
 
 ---
 
