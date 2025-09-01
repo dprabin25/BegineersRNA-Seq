@@ -46,15 +46,18 @@ dir.create(plot_dir, showWarnings = FALSE)
 ## 2) Load Inputs & Align Samples
 
 **What it does**
-- Reads count matrix and metadata.
-- Extracts the grouping column `biopsy_site` from metadata.
-- Ensures column order of counts matches the row order of metadata (critical for DESeq2).
+- Reads count matrix and metadata in your working directory. 
 
-- WORKING DIRECTORY/
+  - WORKING DIRECTORY/
   
 ├─ raw_counts.csv
 
 ├─ MetaData.csv
+
+- Extracts the grouping column `biopsy_site` from metadata.
+- Ensures column order of counts matches the row order of metadata (critical for DESeq2).
+
+
 
 **Key lines**
 ```r
