@@ -42,14 +42,20 @@ dds <- DESeqDataSetFromMatrix(countData = round(counts),
                               design = ~ biopsy_site)
 
 # Run DESeq
-dds <- DESeq(dds)
-write.csv(counts(dds, normalized = TRUE), "Normalized_Counts.csv")
+dds <- DESeq(dds)           ## 1. Estimates size factors for each samples 2. Estimate dispersion and fits a negative binomial model (GLM) for each gene
 
-# Variance stabilizing transformation (for downstream analyses)
-vsd <- vst(dds, blind = FALSE)
-norm_counts <- assay(vsd)
-write.csv(norm_counts, file = "VSD_Counts.csv")
+# Standard normalization
 
+write.csv(counts(dds, normalized = TRUE), "Normalized_Counts.csv")   ## Extracts original raw counts and divide them by sample specific factors calculated by DESeq(dds)
+                                                                 
+# Variance stabilizing transformation (for downstream analyses)     
+
+
+
+
+vsd <- vst(dds, blind = FALSE)       ## You can use vst(dds) or rlog. Generally, rlog is more accurate, especially for smaller samples, while VST offers superior speed for large datasets.             
+norm_counts <- assay(vsd)  ## makes the variance of the counts more constant across the entire range of expression levels.
+write.csv(norm_counts, file = "VSD_Counts.csv") 
 
 # Extract DESeq2 results (default: last level vs first level of biopsy_site)
 res <- results(dds)
@@ -60,9 +66,6 @@ res <- res[order(res$padj), ]
 # Save DESeq2 results to CSV
 write.csv(as.data.frame(res), file = "DESeq2_results.csv")
 
-# Save normalized counts (VST-transformed)
-norm_counts <- assay(vsd)
-write.csv(norm_counts, file = "Normalized_Counts.csv")
 
 # PCA plot
 pcaData <- plotPCA(vsd, intgroup = "biopsy_site", ntop =1000, returnData = TRUE)
@@ -94,7 +97,7 @@ write.csv(pcaData, file = "PCA_data.csv", row.names = TRUE)
 
 
 
-# =====================
+# MA plot and Volcano Plot
 # Primary tumor vs Normal
 # =====================
 res_primary <- results(dds, contrast = c("biopsy_site", "primary tumor", "normal"))
@@ -106,13 +109,17 @@ write.csv(as.data.frame(res_primary_ordered), "Primary_vs_Normal_DEGs.csv")
 png(file.path(plot_dir, "MA_plot_Primary_vs_Normal.png"),
     width = 15, height = 14, units = "in", res = 300)
 
+plotMA(res_primary, ylim = c(-8, 8), 
+       main = "MA Plot: Primary Tumor vs Normal")
+
+dev.off()
+
 # Set global text scaling
-par(cex = 1.5)      # scales everything (axis text, labels, title, etc.)
 
 # You can also fine-tune if needed:
-# par(cex.axis = 1.5, cex.lab = 1.6, cex.main = 1.8)
+## par(cex.axis = 1.5, cex.lab = 1.6, cex.main = 1.8)
 
-plotMA(res_primary, ylim = c(-5, 5), 
+plotMA(res_primary, ylim = c(-8, 8), 
        main = "MA Plot: Primary Tumor vs Normal")
 
 dev.off()
@@ -172,9 +179,10 @@ png(file.path(plot_dir, "MA_plot_Liver_vs_Normal.png"),
     width = 15, height = 14, units = "in", res = 300)
 
 # Global text scaling for base R plot
-par(cex = 1.5)
 
-plotMA(res_liver, ylim = c(-5, 5), 
+## par(cex.axis = 1.5, cex.lab = 1.6, cex.main = 1.8) 
+
+plotMA(res_liver, ylim = c(-8, 8), 
        main = "MA Plot: Liver Mets vs Normal")
 
 dev.off()
@@ -245,6 +253,7 @@ up_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange > 1)
 down_liver <- subset(res_liver_ordered, padj < 0.05 & log2FoldChange < -1)
 write.csv(up_liver, "Upregulated_Liver_vs_Normal.csv")
 write.csv(down_liver, "Downregulated_Liver_vs_Normal.csv")
+
 
 
 
